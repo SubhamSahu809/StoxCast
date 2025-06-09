@@ -1,0 +1,21 @@
+{
+  "name": "zerodha",
+  "version": "1.0.0",
+  "description": "A Clone app of Zerodha",
+  "license": "ISC",
+  "author": "Subham809",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "cd frontend && npm start",
+    "backend": "cd backend && npm start",
+    "dashboard": "cd dashboard && npm start",
+    "dev": "npm-run-all --parallel frontend backend"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
