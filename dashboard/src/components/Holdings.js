@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 
+import "./dashboard.css";
 // import { holdings } from "../data/data";
 
 const Holdings = () => {

@@ -5,7 +5,7 @@ import FAQ from './FAQ';
 import Feature from './Feature';
 
 
-function LoginPage() {
+function SignupPage() {
     return ( 
         <>
             <div className='text-center p-5'>
@@ -20,4 +20,6 @@ function LoginPage() {
      );
 }
 
-export default LoginPage;
+
+
+export default SignupPage;

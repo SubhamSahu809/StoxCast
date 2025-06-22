@@ -1,155 +1,147 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Signup = () => {
-  const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
-    email: "",
-    password: "",
-    username: "",
-  });
-  const { email, password, username } = inputValue;
+  const [mode, setMode] = useState("signup"); // 'signup' or 'login'
+  const [inputValue, setInputValue] = useState({ email: "", username: "", password: "" });
+  const [loading, setLoading] = useState(false);
 
-  const [showLoginOption, setShowLoginOption] = useState(false);
+  const { email, username, password } = inputValue;
 
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setInputValue({ ...inputValue, [name]: value });
+  const handleChange = (e) => {
+    setInputValue({ ...inputValue, [e.target.name]: e.target.value });
   };
 
-  const handleError = (err) =>
-    toast.error(err, { position: "bottom-left" });
-
-  const handleSuccess = (msg) =>
-    toast.success(msg, { position: "bottom-right" });
+  const showError = (msg) => toast.error(msg, { position: "bottom-left", autoClose: 4000 });
+  const showSuccess = (msg) => toast.success(msg, { position: "bottom-right", autoClose: 3000 });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
+    const url = mode === "signup" ? "http://localhost:3002/signup" : "http://localhost:3002/login";
+
     try {
-      const { data } = await axios.post(
-        "http://localhost:3002/signup",
-        { ...inputValue },
-        { withCredentials: true }
-      );
+      const { data } = await axios.post(url, inputValue, { withCredentials: true });
 
       const { success, message, redirect, userExists } = data;
 
       if (userExists) {
-        handleError(message);
-        setShowLoginOption(true);
+        showError(message);
+        setMode("login");
         return;
       }
 
       if (success) {
-        handleSuccess(message);
+        showSuccess(message);
         setTimeout(() => {
-          window.location.href = redirect || "/dashboard";
-        }, 1000);
+          window.location.assign(`http://localhost:3001${redirect || "/dashboard"}`);
+        }, 9000);
       } else {
-        handleError(message);
+        showError(message);
       }
+
     } catch (error) {
       console.log(error);
-      handleError("Something went wrong. Please try again.");
+      showError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+      setInputValue({ email: "", username: "", password: "" });
     }
-
-    setInputValue({ email: "", password: "", username: "" });
-    setShowLoginOption(false);
   };
 
   return (
     <div className="container my-5">
-      <div className="row align-items-center">
-        <div className="col-md-7 text-center mb-4 mb-md-0">
+      <div className="row align-items-center justify-content-center">
+        {/* Left image section */}
+        <div className="col-md-6 text-center mb-4 mb-md-0">
           <img
-            src="media/signup.png"
-            alt="SignUp"
+            src="/media/signup.png"
+            alt="Visual"
             className="img-fluid rounded shadow-sm"
             style={{ maxHeight: "400px" }}
           />
         </div>
-        <div className="col-md-4">
-          <h2 className="fw-bold mb-3">Sign Up Now</h2>
-          <p className="text-muted mb-4">Or track your existing application</p>
+
+        {/* Form section */}
+        <div className="col-md-5">
+          <h2 className="fw-bold mb-3">{mode === "signup" ? "Sign Up Now" : "Login to your Account"}</h2>
+          <p className="text-muted mb-4">
+            {mode === "signup" ? "Or track your existing application" : "Welcome back! Please enter your details"}
+          </p>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label htmlFor="email" className="form-label fw-semibold">
-                Email address
-              </label>
+              <label className="form-label fw-semibold">Email address</label>
               <input
                 type="email"
                 name="email"
                 value={email}
+                onChange={handleChange}
                 className="form-control"
                 placeholder="Enter your email"
-                onChange={handleOnChange}
                 required
               />
             </div>
+
+            {mode === "signup" && (
+              <div className="mb-3">
+                <label className="form-label fw-semibold">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={username}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Choose a username"
+                  required
+                />
+              </div>
+            )}
 
             <div className="mb-3">
-              <label htmlFor="username" className="form-label fw-semibold">
-                Username
-              </label>
-              <input
-                type="text"
-                name="username"
-                value={username}
-                className="form-control"
-                placeholder="Choose a username"
-                onChange={handleOnChange}
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="password" className="form-label fw-semibold">
-                Password
-              </label>
+              <label className="form-label fw-semibold">Password</label>
               <input
                 type="password"
                 name="password"
                 value={password}
+                onChange={handleChange}
                 className="form-control"
-                placeholder="Create a password"
-                onChange={handleOnChange}
+                placeholder="Enter your password"
                 required
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-100 mb-3">
-              Sign Up
+            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+              {loading ? "Please wait..." : mode === "signup" ? "Sign Up" : "Login"}
             </button>
           </form>
 
-          {showLoginOption && (
-            <div className="alert alert-info mt-3 text-center">
-              User already exists. Please{" "}
-              <button
-                className="btn btn-link p-0"
-                onClick={() => navigate("/login")}
-              >
-                Login here
-              </button>
-              .
-            </div>
-          )}
+          <div className="text-center mt-3">
+            {mode === "signup" ? (
+              <p>
+                Already have an account?{" "}
+                <button className="btn btn-link p-0" onClick={() => setMode("login")}>
+                  Login here
+                </button>
+              </p>
+            ) : (
+              <p>
+                Don’t have an account?{" "}
+                <button className="btn btn-link p-0" onClick={() => setMode("signup")}>
+                  Sign up here
+                </button>
+              </p>
+            )}
+          </div>
 
           <p className="text-muted text-center mt-4 small">
-            By proceeding, you agree to the Zerodha{" "}
-            <a href="/terms" className="text-decoration-none">
-              terms
-            </a>{" "}
-            &{" "}
-            <a href="/privacy policy" className="text-decoration-none">
-              privacy policy
-            </a>
-            .
+            By proceeding, you agree to the{" "}
+            <a href="/terms" className="text-decoration-none">terms</a> &{" "}
+            <a href="/privacy" className="text-decoration-none">privacy policy</a>.
           </p>
         </div>
       </div>

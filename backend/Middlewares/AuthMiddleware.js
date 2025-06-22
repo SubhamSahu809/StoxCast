@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports.userVerification = async (req, res, next) => {
   const token = req.cookies.token;
+
   if (!token) {
     return res.status(401).json({ status: false, message: "No token provided" });
   }
@@ -22,10 +23,10 @@ module.exports.userVerification = async (req, res, next) => {
     }
 
     req.user = user;
-    next(); // ✅ Move on to next route handler
+    next(); // ✅ Proceed to the protected route
 
   } catch (err) {
-    console.error("Verification error:", err);
+    console.error("Token verification failed:", err);
     if (!res.headersSent) {
       return res.status(500).json({ status: false, message: "Internal server error" });
     }

@@ -11,12 +11,16 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "base32-decode": "^1.0.0",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.15.0"
+    "mongoose": "^8.15.0",
+    "otplib": "^12.0.1",
+    "smartapi-javascript": "^1.0.27",
+    "ws": "^8.18.2"
   }
 }

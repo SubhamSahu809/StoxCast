@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./dashboard.css";
 
 const Funds = () => {
   return (
@@ -24,15 +25,6 @@ const Funds = () => {
             <div className="data">
               <p>Used margin</p>
               <p className="imp">3,757.30</p>
-            </div>
-            <div className="data">
-              <p>Available cash</p>
-              <p className="imp">4,043.10</p>
-            </div>
-            <hr />
-            <div className="data">
-              <p>Opening Balance</p>
-              <p>4,043.10</p>
             </div>
             <div className="data">
               <p>Opening Balance</p>
