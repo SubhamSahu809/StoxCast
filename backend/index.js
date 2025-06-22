@@ -28,22 +28,22 @@ const url = process.env.MONGO_URL;
 
 // app.get("/addWatchlist", async (req, res) => {
 //   let tempWatchlist = [
-//     { name: "INFY", price: 1555.45, percent: "-1.60%", isDown: true },
-//     { name: "ONGC", price: 116.8, percent: "-0.09%", isDown: true },
-//     { name: "TCS", price: 3194.8, percent: "-0.25%", isDown: true },
-//     { name: "KPITTECH", price: 266.45, percent: "3.54%", isDown: false },
-//     { name: "QUICKHEAL", price: 308.55, percent: "-0.15%", isDown: true },
-//     { name: "WIPRO", price: 577.75, percent: "0.32%", isDown: false },
-//     { name: "M&M", price: 779.8, percent: "-0.01%", isDown: true },
-//     { name: "RELIANCE", price: 2112.4, percent: "1.44%", isDown: false },
-//     { name: "HUL", price: 512.4, percent: "1.04%", isDown: false },
+//     { name: "INFY", token: "3045", price: 1555.45, percent: "-1.60%", isDown: true },
+//     { name: "ONGC", token: "2475", price: 116.8, percent: "-0.09%", isDown: true },
+//     { name: "TCS", token: "11536", price: 3194.8, percent: "-0.25%", isDown: true },
+//     { name: "KPITTECH", token: "18301", price: 266.45, percent: "3.54%", isDown: false },
+//     { name: "QUICKHEAL", token: "21796", price: 308.55, percent: "-0.15%", isDown: true },
+//     { name: "WIPRO", token: "3787", price: 577.75, percent: "0.32%", isDown: false },
+//     { name: "M&M", token: "5007", price: 779.8, percent: "-0.01%", isDown: true },
+//     { name: "RELIANCE", token: "2885", price: 2112.4, percent: "1.44%", isDown: false },
+//     { name: "HUL", token: "17963", price: 512.4, percent: "1.04%", isDown: false },
 //   ];
 
 //   try {
 //     await WatchlistModel.insertMany(tempWatchlist);
-//     res.send("Watchlist added successfully");
+//     res.send("✅ Watchlist with tokens added successfully");
 //   } catch (err) {
-//     console.error(err);
+//     console.error("❌ Error inserting watchlist:", err);
 //     res.status(500).send("Error inserting watchlist");
 //   }
 // });
